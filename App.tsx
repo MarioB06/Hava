@@ -12,8 +12,13 @@ import CreateHouseholdScreen from './src/screens/CreateHouseholdScreen';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from './types';
+import AppStack from './src/navigation/AppStack';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import React from 'react';
+import { Provider as PaperProvider, Portal } from 'react-native-paper';
+import Toast from 'react-native-toast-message';
+import { FeedbackProvider } from './src/services/feedbackService';
 
 function Root() {
   const { token, loading } = useAuth();
@@ -27,8 +32,8 @@ function Root() {
   };
 
   console.log('token:', token);
-  console.log('loading (auth):', loading);
-  console.log('landingSeen:', landingSeen);
+  // console.log('loading (auth):', loading);
+  // console.log('landingSeen:', landingSeen);
   console.log('hasHousehold:', hasHousehold);
 
   useEffect(() => {
@@ -40,13 +45,23 @@ function Root() {
       if (token && hasHousehold === null) {
         try {
           const households = await getMyHouseholds();
-          setHasHousehold(households.length > 0);
+          const has = households.length > 0;
+          setHasHousehold(has);
+
+          if (has) {
+            const userId = await AsyncStorage.getItem('userID');
+            const isAdmin = parseInt(userId || '0') === households[0].admin_id;
+            await AsyncStorage.setItem('isAdmin', isAdmin ? 'true' : 'false');
+            console.log('Ist Admin:', isAdmin);
+          }
         } catch (e) {
           console.log('Haushalt konnte nicht geladen werden');
           setHasHousehold(false);
+          await AsyncStorage.setItem('isAdmin', 'false');
         }
       }
     };
+
 
     if (token) {
       checkHousehold();
@@ -69,7 +84,7 @@ function Root() {
 
   if (hasHousehold === false) return <CreateHouseholdScreen onSuccess={() => setHasHousehold(true)} />; // Wenn kein Haushalt vorhanden, führe die Erstellungslogik aus
 
-  return <BottomTabs />; // Wenn alles überprüft ist, gehe zu BottomTabs
+  return <AppStack />; // <-- vorher war hier BottomTabs
 }
 
 
@@ -78,9 +93,16 @@ export default function App() {
     <SafeAreaProvider>
       <ThemeProvider>
         <AuthProvider>
-          <NavigationContainer>
-            <Root />
-          </NavigationContainer>
+          <PaperProvider>
+            <Portal.Host>
+              <FeedbackProvider>
+                <NavigationContainer>
+                  <Root />
+                </NavigationContainer>
+                <Toast />
+              </FeedbackProvider>
+            </Portal.Host>
+          </PaperProvider>
         </AuthProvider>
       </ThemeProvider>
     </SafeAreaProvider>

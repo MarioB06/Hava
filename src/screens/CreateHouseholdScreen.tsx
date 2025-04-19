@@ -67,10 +67,20 @@ export default function CreateHouseholdScreen({ onSuccess }: { onSuccess: () => 
                 </Text>
 
                 <Text style={{ color: theme.text }}>Haushaltsname*</Text>
-                <TextInput placeholder="z. B. Chaos-WG" placeholderTextColor="#777" value={form.name} onChangeText={(v) => handleChange('name', v)} style={inputStyle} />
+                <TextInput placeholder="z. B. Chaos-WG" placeholderTextColor="#777" value={form.name} onChangeText={(v) => handleChange('name', v)} style={inputStyle}
+                    autoComplete="off"
+                    textContentType="none"
+                    autoCorrect={false}
+                    keyboardType="default"
+                />
 
                 <Text style={{ color: theme.text }}>Beschreibung</Text>
-                <TextInput placeholder="Optional" placeholderTextColor="#777" value={form.description} onChangeText={(v) => handleChange('description', v)} style={inputStyle} />
+                <TextInput placeholder="Optional" placeholderTextColor="#777" value={form.description} onChangeText={(v) => handleChange('description', v)} style={inputStyle}
+                    autoComplete="off"
+                    textContentType="none"
+                    autoCorrect={false}
+                    keyboardType="default"
+                />
 
                 <Text style={{ color: theme.text }}>Land*</Text>
                 <TextInput placeholder="z. B. Schweiz" placeholderTextColor="#777" value={form.country} onChangeText={(v) => handleChange('country', v)} style={inputStyle} />

@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import { useTheme } from '../contexts/ThemeContext';
-
+import ModulesStack from '../navigation/ModulesStack';
 const Tab = createBottomTabNavigator();
 
 function Dummy() {
@@ -50,22 +50,31 @@ export default function BottomTabs() {
                     tabBarIcon: ({ color }) => <FontAwesome5 name="home" size={20} color={color} />,
                 }}
             />
+
             <Tab.Screen
                 name="Modules"
-                component={Dummy}
+                component={ModulesStack} // ← das ist dein kompletter Stack für Haushalt etc.
                 options={{
                     tabBarIcon: () => (
-                        <View style={{
-                            marginBottom: 30,
-                            backgroundColor: theme.accent,
-                            padding: 14,
-                            borderRadius: 32,
-                        }}>
+                        <View
+                            style={{
+                                backgroundColor: theme.accent,
+                                width: 40,
+                                height: 40,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                borderRadius: 20,
+                                marginBottom: 10,
+                            }}
+                        >
                             <FontAwesome5 name="th-large" size={20} color="#fff" />
                         </View>
                     ),
+                    tabBarLabel: '',
                 }}
             />
+
+            {/* Dummy Tab bleibt auch */}
             <Tab.Screen
                 name="Folder"
                 component={Dummy}
@@ -74,5 +83,6 @@ export default function BottomTabs() {
                 }}
             />
         </Tab.Navigator>
+
     );
 }

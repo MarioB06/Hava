@@ -14,5 +14,6 @@
         "tab.activeBorder": "#5930c9",
         "iLoveWorkSpaceColors": true,
         "iLoveWorkSpaceRandom": false
-    }
+    },
+    "search.useIgnoreFiles": false
 }
