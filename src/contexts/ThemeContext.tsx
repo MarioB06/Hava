@@ -2,6 +2,20 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { Appearance } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const moduleColors = {
+    household: '#f97316',
+    users: '#8b5cf6',
+    calendar: '#3b82f6',
+    tasks: '#10b981',
+    finances: '#10b981',
+    storage: '#f59e0b',
+    stats: '#6366f1',
+    points: '#facc15',
+    notifications: '#ec4899',
+    notes: '#06b6d4',
+    polls: '#d1d5db',
+};
+
 const themes = {
     light: {
         mode: 'light',
@@ -9,6 +23,7 @@ const themes = {
         text: '#111111',
         card: '#e4e6eb',
         accent: '#4B73FF',
+        moduleColors,
     },
     dark: {
         mode: 'dark',
@@ -16,8 +31,10 @@ const themes = {
         text: '#ffffff',
         card: '#1f1f1f',
         accent: '#4B73FF',
+        moduleColors,
     },
 };
+
 
 type ThemeType = typeof themes.light;
 

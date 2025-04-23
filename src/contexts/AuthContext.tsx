@@ -48,7 +48,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     api.defaults.headers.common.Authorization = `Bearer ${storedToken}`;
                     setToken(storedToken);
                     // /me holt User-Daten
-                    await api.get('/me').then(res => setUser(res.data));
+                    const me = await api.get('/me');
+                    await AsyncStorage.setItem('userID', me.data.id.toString());
+                    await AsyncStorage.setItem('householdID', me.data.households[0].id.toString());
+                    await AsyncStorage.setItem('householdAdmin', me.data.households[0].admin.toString());
+
                 }
             } catch (err: any) {
                 // Wenn es ein 401 war, dann abmelden
@@ -91,7 +95,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             feedback.show({ type: 'success', title: 'Erfolgreich eingeloggt' });
             const me = await api.get('/me');
             setUser(me.data);
-            await AsyncStorage.setItem('userID', me.data.id.toString());
+            await AsyncStorage.setItem('userID', me.data.id.toString());            
+            await AsyncStorage.setItem('householdID', me.data.households[0].id.toString());
+            await AsyncStorage.setItem('householdAdmin', me.data.households[0].admin.toString());
+
 
         } catch (err) {
             feedback.show({
@@ -116,6 +123,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const me = await api.get('/me');
             setUser(me.data);
             await AsyncStorage.setItem('userID', me.data.id.toString());
+            await AsyncStorage.setItem('householdID', me.data.households[0].id.toString());
+            await AsyncStorage.setItem('householdAdmin', me.data.households[0].admin.toString());
 
             feedback.show({ type: 'success', title: 'Registrierung erfolgreich' });
         } catch (err) {
