@@ -1,7 +1,9 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_BASE_URL = 'http://192.168.1.113:8000/api'; // Domain
+// const API_BASE_URL = 'http://192.168.1.113:8000/api'; // Domain
+// const API_BASE_URL = 'http://91.99.87.85:8000/api'; // netzner server
+const API_BASE_URL = 'https://coban.top/api'; // netzner server
 // const API_BASE_URL = '  '; // local IP
 
 const api = axios.create({
